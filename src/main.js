@@ -6,6 +6,7 @@ import store from "./store";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false;
 
@@ -25,5 +26,6 @@ firebase.initializeApp(firebaseConfig);
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount("#app");
