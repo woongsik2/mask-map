@@ -1,12 +1,13 @@
 <template>
   <div class="home_style">
-    <p>{{ message ? message : '현재 지도의 중심 좌표가 표시됩니다.' }}</p>
+    <!-- <p>{{ message ? message : '현재 지도의 중심 좌표가 표시됩니다.' }}</p> -->
     <div ref="map_area" class="map_style"></div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import { getLongitudeMaskInfo } from '@/api/getMaskInfo'
 export default {
   name: "Map",
   data() {
@@ -18,13 +19,13 @@ export default {
       currentLatlng: '', // 지도 현재 중심좌표
       currentMapStoreList: [], // 현재 지도 내 판매점 정보
       mackerImageSize: '', // 생성된 마커 이미지 크기
-      mackerImageWidth: '', // 마커 이미지 넓이
-      mackerImageHeight: '', // 마커 이미지 높이
+      mackerImageWidth: 45, // 마커 이미지 넓이
+      mackerImageHeight: 45, // 마커 이미지 높이
       mackerImageUrl: {
-        plenty: 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 100개 이상 (초록색)
-        some: 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png', // 30개 이상 100개 미만(노랑색)
-        few: 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 2개 이상 30개 미만(빨강색)
-        empty: 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png' // 1개 이하(회색)
+        plenty: '/assets/marker/marker_green.png', // 100개 이상 (초록색)
+        some: '/assets/marker/marker_yellow.png', // 30개 이상 100개 미만(노랑색)
+        few: '/assets/marker/marker_red.png', // 2개 이상 30개 미만(빨강색)
+        empty: '/assets/marker/marker_gray.png' // 1개 이하(회색)
       },
       mackerImageObj: {
         plenty: '', // 100개 이상 (초록색)
@@ -72,8 +73,7 @@ export default {
       this.getMapStoreList()
     },
     getMapStoreList() {
-      axios.get(`https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByGeo/json?lat=${this.currentLatlng.getLat()}&lng=${this.currentLatlng.getLng()}&m=500`).then(res => {
-        console.log(res)
+      getLongitudeMaskInfo(this.currentLatlng.getLat(), this.currentLatlng.getLng(), 3000).then(res => {
         this.currentMapStoreList = []
         if( res.data.count > 0 ) {
           for (let i = 0; i < res.data.count; i++) {
@@ -82,12 +82,6 @@ export default {
               this.currentMapStoreList.push({ title: storeObj.name, latlng: new window.kakao.maps.LatLng(storeObj.lat, storeObj.lng), remain_stat: storeObj.remain_stat })
             }
           }
-          // this.currentMapStoreList = res.data.stores.filter(storeObj => {
-          //   if (storeObj.remain_stat !== 'break') {
-          //     return { title: storeObj.name, latlng: new window.kakao.maps.LatLng(storeObj.lat, storeObj.lng), remain_stat: storeObj.remain_stat }
-          //   }
-          // })
-          console.log(this.currentMapStoreList)
           this.setMapMacker()
         } else {
           this.currentMapStoreList = []
@@ -96,8 +90,6 @@ export default {
     },
     setMapMacker() {
       this.currentMapStoreList.forEach(mackerObj => {
-        console.log(mackerObj.title, mackerObj.remain_stat)
-        console.log(this.mackerImageObj)
         this.mackerList.push(new window.kakao.maps.Marker({
           map: this.map, // 마커를 표시할 지도
           position: mackerObj.latlng, // 마커를 표시할 위치
@@ -119,7 +111,8 @@ export default {
 <style lang="less" scoped>
 .home_style {
   text-align: center;
-  height: 750px;
+  height: 100%;
+  width: 100%
 }
 .map_style {
   width: 100%;
