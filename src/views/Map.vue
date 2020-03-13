@@ -9,7 +9,7 @@
 import axios from 'axios'
 export default {
   name: "Map",
-  data () {
+  data() {
     return {
       map: '',
       message: '',
@@ -35,11 +35,10 @@ export default {
       mackerList: []
     }
   },
-  created () {
-  },
-  mounted () {
-    this.initMap()
-    this.setMapEvent()
+  created() {},
+  mounted() {
+    this.initMap();
+    this.setMapEvent();
   },
   methods: {
     initMap() {
@@ -47,7 +46,7 @@ export default {
       let options = { //지도를 생성할 때 필요한 기본 옵션
         center: new window.kakao.maps.LatLng(this.initMapLatitude, this.initMapLongitude), //지도의 중심좌표.
         level: 3 //지도의 레벨(확대, 축소 정도)
-      }
+      };
 
       this.map = new window.kakao.maps.Map(container, options)
       this.mackerImageSize = new window.kakao.maps.Size(this.mackerImageWidth, this.mackerImageHeight) // 마커에 사용할 이미지 크기 지정
@@ -57,13 +56,13 @@ export default {
       this.getMapCenter()
     },
     setMapEvent() {
-      window.kakao.maps.event.addListener(this.map, 'dragend', () => {        
-          this.getMapCenter()
-      })
+      window.kakao.maps.event.addListener(this.map, "dragend", () => {
+        this.getMapCenter();
+      });
 
-      window.kakao.maps.event.addListener(this.map, 'zoom_changed', () => {        
-          this.getMapCenter()
-      })
+      window.kakao.maps.event.addListener(this.map, "zoom_changed", () => {
+        this.getMapCenter();
+      });
     },
     getMapCenter() {
       // 지도 중심좌표를 얻어옵니다 
@@ -114,13 +113,12 @@ export default {
       this.mackerList = []
     }
   },
-  beforeDestroy() {
-
-  }
+  beforeDestroy() {}
 };
 </script>
 <style lang="less" scoped>
 .home_style {
+  text-align: center;
   height: 750px;
 }
 .map_style {
