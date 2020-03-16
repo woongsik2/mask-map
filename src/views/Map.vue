@@ -1,6 +1,5 @@
 <template>
   <div class="home_style">
-    <!-- <p>{{ message ? message : '현재 지도의 중심 좌표가 표시됩니다.' }}</p> -->
     <div ref="map_area" class="map_style"></div>
   </div>
 </template>
@@ -14,8 +13,8 @@ export default {
     return {
       map: '',
       message: '',
-      initMapLatitude: '33.450701', // 지도 생성시 초기 위도
-      initMapLongitude: '126.570667', // 지도 생성시 초기 경도
+      initMapLatitude: '33.4722168175194', // 지도 생성시 초기 위도
+      initMapLongitude: '126.5439772775276', // 지도 생성시 초기 경도
       currentLatlng: '', // 지도 현재 중심좌표
       currentMapStoreList: [], // 현재 지도 내 판매점 정보
       markerImageSize: '', // 생성된 마커 이미지 크기
@@ -26,6 +25,12 @@ export default {
         some: '/assets/marker/marker_yellow.png', // 30개 이상 100개 미만(노랑색)
         few: '/assets/marker/marker_red.png', // 2개 이상 30개 미만(빨강색)
         empty: '/assets/marker/marker_gray.png' // 1개 이하(회색)
+      },
+      maskCnt: {
+        plenty: '100개 이상', // 100개 이상 (초록색)
+        some: '30개 이상 100개 미만', // 30개 이상 100개 미만(노랑색)
+        few: '2개 이상 30개 미만', // 2개 이상 30개 미만(빨강색)
+        empty: '1개 이하' // 1개 이하(회색)
       },
       markerImageObj: {
         plenty: '', // 100개 이상 (초록색)
@@ -102,7 +107,8 @@ export default {
                   storeObj.lat,
                   storeObj.lng
                 ),
-                remain_stat: storeObj.remain_stat
+                remain_stat: storeObj.remain_stat,
+                storeInfo: { ...storeObj }
               })
             }
           }
@@ -122,24 +128,30 @@ export default {
           clickable: true // 마커 클릭 이벤트 설정
         })
         this.markerList.push(markerObj);
-        this.setMarkerClickEvent(markerObj, markerInfo)
+        this.setMarkerClickEvent(markerObj, markerInfo.storeInfo)
       });
     },
-    setMarkerClickEvent(markerObj, markerInfo) {
+    setMarkerClickEvent(markerObj, storeInfo) {
       window.kakao.maps.event.addListener(markerObj, 'click', () => {
         if (this.markerWindowObj) {
-          this.markerWindowObj.close()
+          // this.markerWindowObj.close()
+          this.markerWindowObj.setMap(null)
         }
-        this.setMarkerWindowPopup(markerInfo)
+        this.setMarkerWindowPopup(markerObj, storeInfo)
         // 마커 위에 인포윈도우를 표시합니다
-        this.markerWindowObj.open(this.map, markerObj);  
+        this.markerWindowObj.open(this.map, markerObj);
       })
     },
-    setMarkerWindowPopup (markerInfo) {
-      this.markerWindowObj = new window.kakao.maps.InfoWindow({
-        content : `<div style="padding:5px">${markerInfo.title}</div>`, // 마커 클릭시 발생하는 팝업 영역
-        removable : true // 마커 클릭시 발생하는 팝업에 X 표시
+    setMarkerWindowPopup (markerObj, storeInfo) {
+      this.markerWindowObj = new window.kakao.maps.CustomOverlay({
+        content: `<div class="w-64 h-64"><v-card :color="'#033'">${storeInfo.name}<br>${storeInfo.addr}<br>${this.maskCnt[storeInfo.remain_stat]}</v-card></div>`,
+        map: this.map,
+        position: markerObj.getPosition()
       })
+      // this.markerWindowObj = new window.kakao.maps.InfoWindow({
+      //   content: `<p><v-card :color="'#033'">${storeInfo.name}<br>${storeInfo.addr}<br>${this.maskCnt[storeInfo.remain_stat]}</v-card></p>`,
+      //   removable: true // 마커 클릭시 발생하는 팝업에 X 표시
+      // })
     },
     initMapMarker() {
       this.markerList.forEach(markerObj => {
