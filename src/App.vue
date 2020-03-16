@@ -3,7 +3,7 @@
     <div class="w-full component_area">
       <router-view></router-view>
     </div>
-    <v-bottom-navigation class="w-full" :value="activeBtn" grow color="teal">
+    <v-bottom-navigation :value="activeBtn" grow color="teal">
       <v-btn class="mt-2" @click="activeNaviBtn(0)">
         <span>지도</span>
         <v-icon>mdi-map-marker</v-icon>

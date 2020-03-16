@@ -41,7 +41,11 @@ export default {
       markerWindowObj: ''
     }
   },
-  created() {},
+  created() {
+    if (this.$route.param) {
+      console.log(this.$route.param)
+    }
+  },
   mounted() {
     this.initMap()
     this.setMapEvent()
@@ -132,8 +136,8 @@ export default {
     setMarkerClickEvent(markerObj, storeInfo) {
       window.kakao.maps.event.addListener(markerObj, 'click', () => {
         if (this.markerWindowObj) {
-          // this.markerWindowObj.close()
-          this.markerWindowObj.setMap(null)
+          this.closeOverlay()
+          // this.markerWindowObj.setMap(null)
         }
         this.setMarkerWindowPopup(markerObj, storeInfo)
         // 마커 위에 인포윈도우를 표시합니다
@@ -142,7 +146,22 @@ export default {
     },
     setMarkerWindowPopup (markerObj, storeInfo) {
       this.markerWindowObj = new window.kakao.maps.CustomOverlay({
-        content: `<div class="w-128 h-15 leading-snug bg-white flex flex-wrap"><div class="w-full">${storeInfo.name}</div><div class="w-full">${storeInfo.addr}</div><div class="w-full">${this.maskCnt[storeInfo.remain_stat]}</div></div>`,
+        content: `<div class="w-128 h-15 leading-snug bg-white flex flex-wrap"><div class="w-full">${storeInfo.name}</div><div class="w-full">${storeInfo.addr}</div><div class="w-full">${storeInfo.stock_at}</div><div class="w-full">${this.maskCnt[storeInfo.remain_stat]}</div></div>`,
+        // content: '<div class="wrap">' + 
+        //     '    <div class="info">' + 
+        //     '        <div class="title">' + 
+        //     `            ${storeInfo.name}` + 
+        //     '            <div class="close" @click="closeOverlay" title="닫기"></div>' + 
+        //     '        </div>' + 
+        //     '        <div class="body">' +
+        //     '            <div class="desc">' + 
+        //     `                <div class="ellipsis">${storeInfo.addr}</div>` + 
+        //     `                <div class="jibun ellipsis">${storeInfo.stock_at}</div>` + 
+        //     `                <div>${this.maskCnt[storeInfo.remain_stat]}</div>` + 
+        //     '            </div>' + 
+        //     '        </div>' + 
+        //     '    </div>' +    
+        //     '</div>',
         map: this.map,
         position: markerObj.getPosition()
       })
@@ -150,6 +169,9 @@ export default {
       //   content: `<p><v-card :color="'#033'">${storeInfo.name}<br>${storeInfo.addr}<br>${this.maskCnt[storeInfo.remain_stat]}</v-card></p>`,
       //   removable: true // 마커 클릭시 발생하는 팝업에 X 표시
       // })
+    },
+    closeOverlay() {
+      this.markerWindowObj.setMap(null)
     },
     initMapMarker() {
       this.markerList.forEach(markerObj => {
@@ -161,3 +183,19 @@ export default {
   beforeDestroy() {}
 }
 </script>
+<style lang="less">
+// .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+// .wrap * {padding: 0;margin: 0;}
+// .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+// .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+// .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+// .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+// .info .close:hover {cursor: pointer;}
+// .info .body {position: relative;overflow: hidden;}
+// .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+// .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+// .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+// .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+// .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+// .info .link {color: #5085BB;}
+</style>
