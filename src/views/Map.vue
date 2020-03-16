@@ -18,22 +18,22 @@ export default {
       initMapLongitude: '126.570667', // 지도 생성시 초기 경도
       currentLatlng: '', // 지도 현재 중심좌표
       currentMapStoreList: [], // 현재 지도 내 판매점 정보
-      mackerImageSize: '', // 생성된 마커 이미지 크기
-      mackerImageWidth: 45, // 마커 이미지 넓이
-      mackerImageHeight: 45, // 마커 이미지 높이
-      mackerImageUrl: {
+      markerImageSize: '', // 생성된 마커 이미지 크기
+      markerImageWidth: 45, // 마커 이미지 넓이
+      markerImageHeight: 45, // 마커 이미지 높이
+      markerImageUrl: {
         plenty: '/assets/marker/marker_green.png', // 100개 이상 (초록색)
         some: '/assets/marker/marker_yellow.png', // 30개 이상 100개 미만(노랑색)
         few: '/assets/marker/marker_red.png', // 2개 이상 30개 미만(빨강색)
         empty: '/assets/marker/marker_gray.png' // 1개 이하(회색)
       },
-      mackerImageObj: {
+      markerImageObj: {
         plenty: '', // 100개 이상 (초록색)
         some: '', // 30개 이상 100개 미만(노랑색)
         few: '', // 2개 이상 30개 미만(빨강색)
         empty: '' // 1개 이하(회색)
       },
-      mackerList: [],
+      markerList: [],
       markerWindowPopup: '',
       markerWindowObj: ''
     }
@@ -56,15 +56,15 @@ export default {
       }
 
       this.map = new window.kakao.maps.Map(container, options)
-      this.mackerImageSize = new window.kakao.maps.Size(
-        this.mackerImageWidth,
-        this.mackerImageHeight
+      this.markerImageSize = new window.kakao.maps.Size(
+        this.markerImageWidth,
+        this.markerImageHeight
       ) // 마커에 사용할 이미지 크기 지정
-      for (let key in this.mackerImageObj) {
+      for (let key in this.markerImageObj) {
         // 마커에 사용될 4가지 이미지 생성
-        this.mackerImageObj[key] = new window.kakao.maps.MarkerImage(
-          this.mackerImageUrl[key],
-          this.mackerImageSize
+        this.markerImageObj[key] = new window.kakao.maps.MarkerImage(
+          this.markerImageUrl[key],
+          this.markerImageSize
         )
       }
       this.getMapCenter()
@@ -82,7 +82,7 @@ export default {
       // 지도 중심좌표를 얻어옵니다
       this.currentLatlng = this.map.getCenter()
       this.message = `변경된 지도 중심좌표는 ${this.currentLatlng.getLat()}이고, 경도는 ${this.currentLatlng.getLng()}입니다.`
-      this.initMapMacker()
+      this.initMapMarker()
       this.getMapStoreList()
     },
     getMapStoreList() {
@@ -106,7 +106,7 @@ export default {
               })
             }
           }
-          this.setMapMacker()
+          this.setMapMarker()
         } else {
           this.currentMapStoreList = []
         }
