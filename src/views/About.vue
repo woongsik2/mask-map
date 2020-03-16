@@ -11,7 +11,7 @@ import axios from 'axios'
 import { getAddrMaskInfo, getLongitudeMaskInfo } from '../api/getMaskInfo'
 
 export default {
-  name: 'Home',
+  name: 'About',
   components: {},
   created() {},
   mounted() {

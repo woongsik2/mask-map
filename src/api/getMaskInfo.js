@@ -7,10 +7,10 @@ let maskApiBaseUrl = 'https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1'
   예- '서울특별시 강남구' or '서울특별시 강남구 논현동'
   ('서울특별시' 와 같이 '시'단위만 입력하는 것은 불가능합니다.)
 */
-export async function getAddrMaskInfo(){
-    let result = await axios.get("/storesByAddr/json", {
+export async function getAddrMaskInfo(address){
+    let result = await axios.get(`${maskApiBaseUrl}/storesByAddr/json`, {
           params: {
-            address: "서울특별시 강남구"
+            address
           }
         });
     return result

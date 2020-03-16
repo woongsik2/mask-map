@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Map from "../views/Map.vue";
+import List from "../views/List.vue"
 
 Vue.use(VueRouter);
 
@@ -9,6 +10,11 @@ const routes = [
     path: "/",
     name: "Map",
     component: Map
+  },
+  {
+    path: "/list",
+    name: "List",
+    component: List
   },
   {
     path: "/about",
@@ -22,7 +28,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  // mode: "history",
   base: process.env.BASE_URL,
   routes
 });

@@ -36,7 +36,9 @@ export default {
       mackerList: []
     }
   },
-  created() {},
+  created() {
+    console.log(this.$route.params)
+  },
   mounted() {
     this.initMap()
     this.setMapEvent()

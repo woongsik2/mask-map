@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <div>헤더</div>
     <router-view></router-view>
     <v-bottom-navigation :value="activeBtn" grow color="teal">
       <v-btn class="mt-2" @click="activeNaviBtn(0)">
@@ -40,6 +41,9 @@ export default {
         this.$router.push({ name: 'Map' })
       }
       if (no === 1) {
+        this.$router.push({ name: 'List' })
+      }
+      if (no === 2) {
         this.$router.push({ name: 'About' })
       }
     }
