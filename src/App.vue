@@ -1,7 +1,8 @@
 <template>
-  <v-app>
-    <div>헤더</div>
-    <router-view></router-view>
+  <v-app class="flex flex-wrap w-full h-full">
+    <div class="w-full component_area">
+      <router-view></router-view>
+    </div>
     <v-bottom-navigation :value="activeBtn" grow color="teal">
       <v-btn class="mt-2" @click="activeNaviBtn(0)">
         <span>지도</span>
@@ -52,5 +53,12 @@ export default {
 </script>
 
 <style lang="less">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import './assets/main.less';
+
+.component_area {
+  height: calc(100% - 56px);
+}
 </style>
