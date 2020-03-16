@@ -1,12 +1,10 @@
 <template>
-  <div class="home_style">
-    <div ref="map_area" class="map_style"></div>
-  </div>
+  <div ref="map_area" class="w-full h-full"></div>
 </template>
 
 <script>
-// import axios from 'axios'
 import { getLongitudeMaskInfo } from '@/api/getMaskInfo'
+
 export default {
   name: 'Map',
   data() {
@@ -139,12 +137,12 @@ export default {
         }
         this.setMarkerWindowPopup(markerObj, storeInfo)
         // 마커 위에 인포윈도우를 표시합니다
-        this.markerWindowObj.open(this.map, markerObj);
+        this.markerWindowObj.setMap(this.map)
       })
     },
     setMarkerWindowPopup (markerObj, storeInfo) {
       this.markerWindowObj = new window.kakao.maps.CustomOverlay({
-        content: `<div class="w-64 h-64"><v-card :color="'#033'">${storeInfo.name}<br>${storeInfo.addr}<br>${this.maskCnt[storeInfo.remain_stat]}</v-card></div>`,
+        content: `<div class="w-128 h-15 leading-snug bg-white flex flex-wrap"><div class="w-full">${storeInfo.name}</div><div class="w-full">${storeInfo.addr}</div><div class="w-full">${this.maskCnt[storeInfo.remain_stat]}</div></div>`,
         map: this.map,
         position: markerObj.getPosition()
       })
@@ -157,7 +155,7 @@ export default {
       this.markerList.forEach(markerObj => {
         markerObj.setMap(null);
       });
-      this.markerList = [];
+      this.markerList = []
     }
   },
   beforeDestroy() {}
