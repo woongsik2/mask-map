@@ -7,45 +7,45 @@
 
 <script>
 // import axios from 'axios'
-import { getLongitudeMaskInfo } from "@/api/getMaskInfo";
+import { getLongitudeMaskInfo } from '@/api/getMaskInfo'
 export default {
-  name: "Map",
+  name: 'Map',
   data() {
     return {
-      map: "",
-      message: "",
-      initMapLatitude: "33.450701", // 지도 생성시 초기 위도
-      initMapLongitude: "126.570667", // 지도 생성시 초기 경도
-      currentLatlng: "", // 지도 현재 중심좌표
+      map: '',
+      message: '',
+      initMapLatitude: '33.450701', // 지도 생성시 초기 위도
+      initMapLongitude: '126.570667', // 지도 생성시 초기 경도
+      currentLatlng: '', // 지도 현재 중심좌표
       currentMapStoreList: [], // 현재 지도 내 판매점 정보
-      markerImageSize: "", // 생성된 마커 이미지 크기
-      markerImageWidth: 45, // 마커 이미지 넓이
-      markerImageHeight: 45, // 마커 이미지 높이
-      markerImageUrl: {
-        plenty: "/assets/marker/marker_green.png", // 100개 이상 (초록색)
-        some: "/assets/marker/marker_yellow.png", // 30개 이상 100개 미만(노랑색)
-        few: "/assets/marker/marker_red.png", // 2개 이상 30개 미만(빨강색)
-        empty: "/assets/marker/marker_gray.png" // 1개 이하(회색)
+      mackerImageSize: '', // 생성된 마커 이미지 크기
+      mackerImageWidth: 45, // 마커 이미지 넓이
+      mackerImageHeight: 45, // 마커 이미지 높이
+      mackerImageUrl: {
+        plenty: '/assets/marker/marker_green.png', // 100개 이상 (초록색)
+        some: '/assets/marker/marker_yellow.png', // 30개 이상 100개 미만(노랑색)
+        few: '/assets/marker/marker_red.png', // 2개 이상 30개 미만(빨강색)
+        empty: '/assets/marker/marker_gray.png' // 1개 이하(회색)
       },
-      markerImageObj: {
-        plenty: "", // 100개 이상 (초록색)
-        some: "", // 30개 이상 100개 미만(노랑색)
-        few: "", // 2개 이상 30개 미만(빨강색)
-        empty: "" // 1개 이하(회색)
+      mackerImageObj: {
+        plenty: '', // 100개 이상 (초록색)
+        some: '', // 30개 이상 100개 미만(노랑색)
+        few: '', // 2개 이상 30개 미만(빨강색)
+        empty: '' // 1개 이하(회색)
       },
-      markerList: [],
+      mackerList: [],
       markerWindowPopup: '',
       markerWindowObj: ''
-    };
+    }
   },
   created() {},
   mounted() {
-    this.initMap();
-    this.setMapEvent();
+    this.initMap()
+    this.setMapEvent()
   },
   methods: {
     initMap() {
-      let container = this.$refs.map_area;
+      let container = this.$refs.map_area
       let options = {
         //지도를 생성할 때 필요한 기본 옵션
         center: new window.kakao.maps.LatLng(
@@ -53,37 +53,37 @@ export default {
           this.initMapLongitude
         ), //지도의 중심좌표.
         level: 3 //지도의 레벨(확대, 축소 정도)
-      };
-
-      this.map = new window.kakao.maps.Map(container, options);
-      this.markerImageSize = new window.kakao.maps.Size(
-        this.markerImageWidth,
-        this.markerImageHeight
-      ); // 마커에 사용할 이미지 크기 지정
-      for (let key in this.markerImageObj) {
-        // 마커에 사용될 4가지 이미지 생성
-        this.markerImageObj[key] = new window.kakao.maps.MarkerImage(
-          this.markerImageUrl[key],
-          this.markerImageSize
-        );
       }
-      this.getMapCenter();
+
+      this.map = new window.kakao.maps.Map(container, options)
+      this.mackerImageSize = new window.kakao.maps.Size(
+        this.mackerImageWidth,
+        this.mackerImageHeight
+      ) // 마커에 사용할 이미지 크기 지정
+      for (let key in this.mackerImageObj) {
+        // 마커에 사용될 4가지 이미지 생성
+        this.mackerImageObj[key] = new window.kakao.maps.MarkerImage(
+          this.mackerImageUrl[key],
+          this.mackerImageSize
+        )
+      }
+      this.getMapCenter()
     },
     setMapEvent() {
-      window.kakao.maps.event.addListener(this.map, "dragend", () => {
-        this.getMapCenter();
-      });
+      window.kakao.maps.event.addListener(this.map, 'dragend', () => {
+        this.getMapCenter()
+      })
 
-      window.kakao.maps.event.addListener(this.map, "zoom_changed", () => {
-        this.getMapCenter();
-      });
+      window.kakao.maps.event.addListener(this.map, 'zoom_changed', () => {
+        this.getMapCenter()
+      })
     },
     getMapCenter() {
       // 지도 중심좌표를 얻어옵니다
-      this.currentLatlng = this.map.getCenter();
-      this.message = `변경된 지도 중심좌표는 ${this.currentLatlng.getLat()}이고, 경도는 ${this.currentLatlng.getLng()}입니다.`;
-      this.initMapMarker();
-      this.getMapStoreList();
+      this.currentLatlng = this.map.getCenter()
+      this.message = `변경된 지도 중심좌표는 ${this.currentLatlng.getLat()}이고, 경도는 ${this.currentLatlng.getLng()}입니다.`
+      this.initMapMacker()
+      this.getMapStoreList()
     },
     getMapStoreList() {
       getLongitudeMaskInfo(
@@ -91,11 +91,11 @@ export default {
         this.currentLatlng.getLng(),
         3000
       ).then(res => {
-        this.currentMapStoreList = [];
+        this.currentMapStoreList = []
         if (res.data.count > 0) {
           for (let i = 0; i < res.data.count; i++) {
-            let storeObj = res.data.stores[i];
-            if (storeObj.remain_stat !== "break" && !!storeObj.remain_stat) {
+            let storeObj = res.data.stores[i]
+            if (storeObj.remain_stat !== 'break' && !!storeObj.remain_stat) {
               this.currentMapStoreList.push({
                 title: storeObj.name,
                 latlng: new window.kakao.maps.LatLng(
@@ -103,14 +103,14 @@ export default {
                   storeObj.lng
                 ),
                 remain_stat: storeObj.remain_stat
-              });
+              })
             }
           }
-          this.setMapMarker();
+          this.setMapMacker()
         } else {
-          this.currentMapStoreList = [];
+          this.currentMapStoreList = []
         }
-      });
+      })
     },
     setMapMarker() {
       this.currentMapStoreList.forEach(markerInfo => {
@@ -149,17 +149,5 @@ export default {
     }
   },
   beforeDestroy() {}
-};
+}
 </script>
-<style lang="less" scoped>
-.home_style {
-  text-align: center;
-  height: 100%;
-  width: 100%;
-}
-.map_style {
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-}
-</style>
