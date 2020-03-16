@@ -10,7 +10,9 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
-    "firebase": "^7.10.0",
+    "cors": "^2.8.5",
+    "firebase": "^7.11.0",
+    "request": "^2.88.2",
     "semantic-ui-vue": "^0.10.1",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",

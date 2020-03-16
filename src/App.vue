@@ -1,6 +1,22 @@
 <template>
   <v-app>
     <router-view></router-view>
+    <v-bottom-navigation :value="activeBtn" grow color="teal">
+      <v-btn class="mt-2" @click="activeNaviBtn(0)">
+        <span>지도</span>
+        <v-icon>mdi-map-marker</v-icon>
+      </v-btn>
+
+      <v-btn class="mt-2" @click="activeNaviBtn(1)">
+        <span>리스트</span>
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
+
+      <v-btn class="mt-2" @click="activeNaviBtn(2)">
+        <span>정보</span>
+        <v-icon>mdi-history</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
   </v-app>
 </template>
 
@@ -8,14 +24,25 @@
 // import HelloWorld from "./components/HelloWorld";
 
 export default {
-  name: "App",
+  name: 'App',
 
   components: {
     // HelloWorld
   },
 
   data: () => ({
-    //
-  })
-};
+    activeBtn: 0
+  }),
+  methods: {
+    activeNaviBtn(no) {
+      this.activeBtn = no
+      if (no === 0) {
+        this.$router.push({ name: 'Map' })
+      }
+      if (no === 1) {
+        this.$router.push({ name: 'About' })
+      }
+    }
+  }
+}
 </script>
