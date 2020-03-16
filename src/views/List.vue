@@ -2,7 +2,7 @@
   <div class="home_style">
     <div class="map_style">
       <div>
-        <v-text-field label="주소 검색"></v-text-field>
+        <v-text-field v-model="inputAddr" label="주소 검색" @keypress.enter="search"></v-text-field>
         <v-btn @click="search">검색</v-btn>
       </div>
       <v-data-table
@@ -26,6 +26,7 @@ export default {
   components: {},
   data() {
     return {
+      inputAddr: '',
       headers: [
         {
           text: '판매처 명',
@@ -46,7 +47,8 @@ export default {
   methods: {
     search() {
       this.loadingFlag = true
-      getAddrMaskInfo('서울특별시 양천구 목동').then(data => {
+      getAddrMaskInfo(this.inputAddr).then(data => {
+        this.testData = []
         let stores = data.data.stores
         console.log(stores)
         stores.forEach(v => {

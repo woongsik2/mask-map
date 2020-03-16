@@ -42,8 +42,8 @@ export default {
     }
   },
   created() {
-    if (this.$route.param) {
-      console.log(this.$route.param)
+    if (this.$route.params) {
+      console.log(this.$route.params)
     }
   },
   mounted() {
