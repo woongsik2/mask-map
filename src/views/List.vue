@@ -48,7 +48,7 @@ export default {
   components: {},
   data() {
     return {
-      inputAddr: '서울특별시 강남구',
+      inputAddr: '',
       headers: [
         {
           text: '판매처 명',
@@ -83,6 +83,10 @@ export default {
   mounted() {},
   methods: {
     search() {
+      if (this.inputAddr.trim() == '') {
+        alert('주소를 입력 해 주세요.')
+        return false
+      }
       this.page = 1 // page init
       this.loadingFlag = true
       getAddrMaskInfo(this.inputAddr).then(data => {
