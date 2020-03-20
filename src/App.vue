@@ -1,5 +1,8 @@
 <template>
   <v-app class="flex flex-wrap w-full h-full">
+    <div class="w-full header_area">
+      헤더영역입니다ㅏㅏㅏㅏㅏㅏ
+    </div>
     <div class="w-full component_area">
       <router-view></router-view>
     </div>
@@ -23,8 +26,6 @@
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld";
-
 export default {
   name: 'App',
 
@@ -53,12 +54,5 @@ export default {
 </script>
 
 <style lang="less">
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 @import './assets/main.less';
-
-.component_area {
-  height: calc(100% - 56px);
-}
 </style>
