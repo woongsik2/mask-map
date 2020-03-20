@@ -7,6 +7,10 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 import vuetify from './plugins/vuetify';
+import lodash from 'lodash'
+
+// Lodash window 전체 영역 부여
+window._ = lodash
 
 Vue.config.productionTip = false;
 
