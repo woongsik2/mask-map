@@ -16,7 +16,7 @@
 
       <v-btn class="mt-2" @click="activeNaviBtn(2)">
         <span>정보</span>
-        <v-icon>mdi-history</v-icon>
+        <v-icon>mdi-information-outline</v-icon>
       </v-btn>
     </v-bottom-navigation>
   </v-app>
